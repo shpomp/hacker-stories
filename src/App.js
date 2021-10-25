@@ -1,17 +1,15 @@
 import "./App.css";
 import { useState, useEffect } from "react";
 
-const Search = ({ search, onSearch }) => {
-	return (
-		<div>
-			<label htmlFor="search">Search: </label>
-			<input id="search" type="text" value={search} onChange={onSearch} />
-		</div>
-	);
-};
+const InputWithLabel = ({ id, label, value, type = "text", onInputChange }) => (
+	<>
+		<label htmlFor={id}>{label}</label>
+		<input id={id} type={type} value={value} onChange={onInputChange} />
+	</>
+);
 
 const List = ({ list }) => (
-	<ul>
+	<ul className="list">
 		{list.map((item) => (
 			<Item key={item.objectID} item={item} />
 		))}
@@ -72,7 +70,13 @@ const App = () => {
 		<div className="App">
 			<h1>My Hacker Stories</h1>
 
-			<Search search={searchTerm} onSearch={handleSearch} />
+			<InputWithLabel
+				id="search"
+				label="Search"
+				value={searchTerm}
+				onInputChange={handleSearch}
+			/>
+
 			<hr />
 
 			<List list={searchedStories} />
