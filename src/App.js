@@ -1,9 +1,15 @@
 import "./App.css";
 import { useState, useEffect } from "react";
 
-const InputWithLabel = ({ id, label, value, type = "text", onInputChange }) => (
+const InputWithLabel = ({
+	id,
+	value,
+	type = "text",
+	onInputChange,
+	children,
+}) => (
 	<>
-		<label htmlFor={id}>{label}</label>
+		<label htmlFor={id}>{children}</label>
 		<input id={id} type={type} value={value} onChange={onInputChange} />
 	</>
 );
@@ -75,7 +81,9 @@ const App = () => {
 				label="Search"
 				value={searchTerm}
 				onInputChange={handleSearch}
-			/>
+			>
+				Search:
+			</InputWithLabel>
 
 			<hr />
 
