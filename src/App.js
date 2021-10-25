@@ -34,24 +34,35 @@ const InputWithLabel = ({
 	);
 };
 
-const List = ({ list }) => (
+const List = ({ list, onRemoveItem }) => (
 	<ul className="list">
 		{list.map((item) => (
-			<Item key={item.objectID} item={item} />
+			<Item key={item.objectID} item={item} onRemoveItem={onRemoveItem} />
 		))}
 	</ul>
 );
 
-const Item = ({ item }) => (
-	<li>
-		<span>
-			<a href={item.url}>{item.title}</a>
-		</span>
-		<span>{item.author}</span>
-		<span>{item.num_comments}</span>
-		<span>{item.points}</span>
-	</li>
-);
+const Item = ({ item, onRemoveItem }) => {
+	const handleRemoveItem = () => {
+		onRemoveItem(item);
+	};
+	return (
+		<li>
+			{" "}
+			<span>
+				<a href={item.url}>{item.title}</a>
+			</span>
+			<span>{item.author}</span>
+			<span>{item.num_comments}</span>
+			<span>{item.points}</span>
+			<span>
+				<button type="button" onClick={handleRemoveItem}>
+					Dismiss
+				</button>
+			</span>
+		</li>
+	);
+};
 
 // ------- ******* ------- . ------- ******* ------- . ------- ******* -------
 const useSemiPersistentState = (key, initialState) => {
@@ -63,7 +74,7 @@ const useSemiPersistentState = (key, initialState) => {
 };
 
 const App = () => {
-	const stories = [
+	const initialStories = [
 		{
 			title: "React",
 			url: "https://reactjs.org/",
@@ -81,7 +92,7 @@ const App = () => {
 			objectID: 1,
 		},
 	];
-
+	const [stories, setStories] = useState(initialStories);
 	const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "");
 
 	const searchedStories = stories.filter((story) =>
@@ -92,10 +103,16 @@ const App = () => {
 		setSearchTerm(event.target.value);
 	};
 
+	const handleRemoveStory = (item) => {
+		const newStories = stories.filter(
+			(story) => item.objectID !== story.objectID
+		);
+		setStories(newStories);
+	};
+
 	return (
 		<div className="App">
 			<h1>My Hacker Stories</h1>
-
 			<InputWithLabel
 				id="search"
 				label="Search"
@@ -105,10 +122,8 @@ const App = () => {
 			>
 				Search:
 			</InputWithLabel>
-
 			<hr />
-
-			<List list={searchedStories} />
+			<List list={searchedStories} onRemoveItem={handleRemoveStory} />
 		</div>
 	);
 };
