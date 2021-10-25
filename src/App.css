@@ -1,10 +1,10 @@
 .App {
 	height: 100vh;
-	background-color: rgb(142, 142, 182);
+	background-color: rgb(157, 157, 219);
 	padding: 90px;
 }
 input {
-	background-color: rgb(163, 163, 175);
+	background-color: rgb(210, 210, 255);
 	padding: 10px 10px;
 	line-height: 20px;
 	border: none;
