@@ -65,6 +65,7 @@ const Item = ({ item, onRemoveItem }) => {
 };
 
 // ------- ******* ------- . ------- ******* ------- . ------- ******* -------
+
 const useSemiPersistentState = (key, initialState) => {
 	const [value, setValue] = useState(localStorage.getItem(key) || initialState);
 	useEffect(() => {
