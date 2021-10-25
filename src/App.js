@@ -2,23 +2,10 @@ import "./App.css";
 import { useState, useEffect } from "react";
 
 const Search = (props) => {
-	const [searchTerm, setSearchTerm] = useState("");
-	const handleChange = (event) => {
-		setSearchTerm(event.target.value);
-		props.onSearch(event);
-	};
-
-	useEffect(() => {
-		console.log("in Search: ", searchTerm);
-	});
-
 	return (
 		<div>
 			<label htmlFor="search">Search: </label>
-			<input id="search" type="text" onChange={handleChange} />
-			<p>
-				Searching for <strong>{searchTerm}</strong>.
-			</p>
+			<input id="search" type="text" onChange={props.onSearch} />
 		</div>
 	);
 };
@@ -64,10 +51,10 @@ const App = () => {
 		},
 	];
 
+	const [searchTerm, setSearchTerm] = useState("");
+
 	const handleSearch = (event) => {
-		const inputValue = event.target.value;
-		console.log("inputValue", inputValue);
-		console.log("in APP: ", event.target.value);
+		setSearchTerm(event.target.value);
 	};
 
 	return (
