@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Search = ({ search, onSearch }) => {
 	return (
@@ -51,10 +51,17 @@ const App = () => {
 		},
 	];
 
-	const [searchTerm, setSearchTerm] = useState("");
+	const [searchTerm, setSearchTerm] = useState(
+		localStorage.getItem("search") ?? ""
+	);
 	const searchedStories = stories.filter((story) =>
 		story.title.toLowerCase().includes(searchTerm.toLowerCase())
 	);
+
+	useEffect(() => {
+		localStorage.setItem("search", searchTerm);
+		console.log("useEffect", searchTerm);
+	}, [searchTerm]);
 
 	const handleSearch = (event) => {
 		setSearchTerm(event.target.value);
