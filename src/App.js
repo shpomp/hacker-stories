@@ -1,18 +1,38 @@
 import "./App.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const InputWithLabel = ({
 	id,
 	value,
 	type = "text",
 	onInputChange,
+	isFocused,
 	children,
-}) => (
-	<>
-		<label htmlFor={id}>{children}</label>
-		<input id={id} type={type} value={value} onChange={onInputChange} />
-	</>
-);
+}) => {
+	// A
+	const inputRef = useRef();
+	// C
+	useEffect(() => {
+		if (isFocused && inputRef.current) {
+			// D
+			inputRef.current.focus();
+		}
+	}, [isFocused]);
+	return (
+		<>
+			<label htmlFor={id}>{children}</label>
+			&nbsp;
+			{/* B */}
+			<input
+				ref={inputRef}
+				id={id}
+				type={type}
+				value={value}
+				onChange={onInputChange}
+			/>
+		</>
+	);
+};
 
 const List = ({ list }) => (
 	<ul className="list">
@@ -80,6 +100,7 @@ const App = () => {
 				id="search"
 				label="Search"
 				value={searchTerm}
+				isFocused
 				onInputChange={handleSearch}
 			>
 				Search:
