@@ -1,9 +1,9 @@
 import "./App.css";
-import { useState, useEffect, useRef, useReducer } from "react";
+import { useState, useEffect, useReducer } from "react";
 import InputWithLabel from "./components/InputWithLabel";
 import List from "./components/List";
 
-// ------- ******* ------- . ------- ******* ------- . ------- ******* -------
+const API_ENDPOINT = "https://hn.algolia.com/api/v1/search?query=";
 
 const ACTIONS = {
 	SET_STORIES: "SET_STORIES",
@@ -11,14 +11,6 @@ const ACTIONS = {
 	STORIES_FETCH_INIT: "STORIES_FETCH_INIT",
 	STORIES_FETCH_SUCCESS: "STORIES_FETCH_SUCCESS",
 	STORIES_FETCH_FAILURE: "STORIES_FETCH_FAILURE",
-};
-
-const useSemiPersistentState = (key, initialState) => {
-	const [value, setValue] = useState(localStorage.getItem(key) || initialState);
-	useEffect(() => {
-		localStorage.setItem(key, value);
-	}, [value, key]);
-	return [value, setValue];
 };
 
 const storiesReducer = (state, action) => {
@@ -52,6 +44,14 @@ const storiesReducer = (state, action) => {
 		default:
 			throw new Error();
 	}
+};
+
+const useSemiPersistentState = (key, initialState) => {
+	const [value, setValue] = useState(localStorage.getItem(key) || initialState);
+	useEffect(() => {
+		localStorage.setItem(key, value);
+	}, [value, key]);
+	return [value, setValue];
 };
 
 const initialStories = [
@@ -89,11 +89,12 @@ const App = () => {
 
 	useEffect(() => {
 		dispatchStories({ type: ACTIONS.STORIES_FETCH_INIT });
-		getAsyncStories()
+		fetch(`${API_ENDPOINT}react`)
+			.then((response) => response.json())
 			.then((result) => {
 				dispatchStories({
 					type: ACTIONS.STORIES_FETCH_SUCCESS,
-					payload: result.data.stories,
+					payload: result.hits,
 				});
 			})
 			.catch(() => dispatchStories({ type: ACTIONS.STORIES_FETCH_FAILURE }));
