@@ -65,18 +65,19 @@ const App = () => {
 		isError: false,
 	});
 
-	const handleFetchStories = useCallback(() => {
+	const handleFetchStories = useCallback(async () => {
 		dispatchStories({ type: ACTIONS.STORIES_FETCH_INIT });
 
-		axios
-			.get(url)
-			.then((result) => {
-				dispatchStories({
-					type: ACTIONS.STORIES_FETCH_SUCCESS,
-					payload: result.data.hits,
-				});
-			})
-			.catch(() => dispatchStories({ type: ACTIONS.STORIES_FETCH_FAILURE }));
+		try {
+			const result = await axios.get(url);
+
+			dispatchStories({
+				type: ACTIONS.STORIES_FETCH_SUCCESS,
+				payload: result.data.hits,
+			});
+		} catch {
+			dispatchStories({ type: ACTIONS.STORIES_FETCH_FAILURE });
+		}
 	}, [url]);
 
 	useEffect(() => {
