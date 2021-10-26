@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState, useEffect, useReducer } from "react";
+import { useState, useEffect, useReducer, useCallback } from "react";
 import InputWithLabel from "./components/InputWithLabel";
 import List from "./components/List";
 
@@ -63,7 +63,7 @@ const App = () => {
 		isError: false,
 	});
 
-	useEffect(() => {
+	const handleFetchStories = useCallback(() => {
 		if (!searchTerm) return;
 
 		dispatchStories({ type: ACTIONS.STORIES_FETCH_INIT });
@@ -78,6 +78,10 @@ const App = () => {
 			})
 			.catch(() => dispatchStories({ type: ACTIONS.STORIES_FETCH_FAILURE }));
 	}, [searchTerm]);
+
+	useEffect(() => {
+		handleFetchStories();
+	}, [handleFetchStories]);
 
 	const handleSearch = (event) => {
 		setSearchTerm(event.target.value);
