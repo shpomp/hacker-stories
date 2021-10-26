@@ -5,6 +5,14 @@ import List from "./components/List";
 
 const API_ENDPOINT = "https://hn.algolia.com/api/v1/search?query=";
 
+const useSemiPersistentState = (key, initialState) => {
+	const [value, setValue] = useState(localStorage.getItem(key) || initialState);
+	useEffect(() => {
+		localStorage.setItem(key, value);
+	}, [value, key]);
+	return [value, setValue];
+};
+
 const ACTIONS = {
 	SET_STORIES: "SET_STORIES",
 	REMOVE_STORY: "REMOVE_STORY",
@@ -46,50 +54,20 @@ const storiesReducer = (state, action) => {
 	}
 };
 
-const useSemiPersistentState = (key, initialState) => {
-	const [value, setValue] = useState(localStorage.getItem(key) || initialState);
-	useEffect(() => {
-		localStorage.setItem(key, value);
-	}, [value, key]);
-	return [value, setValue];
-};
-
-const initialStories = [
-	{
-		title: "React",
-		url: "https://reactjs.org/",
-		author: "Jordan Walke",
-		num_comments: 3,
-		points: 4,
-		objectID: 0,
-	},
-	{
-		title: "Redux",
-		url: "https://redux.js.org/",
-		author: "Dan Abramov, Andrew Clark",
-		num_comments: 2,
-		points: 5,
-		objectID: 1,
-	},
-];
-
-const getAsyncStories = () =>
-	new Promise((resolve) =>
-		setTimeout(() => resolve({ data: { stories: initialStories } }), 2000)
-	);
-
 const App = () => {
+	const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "React");
+
 	const [stories, dispatchStories] = useReducer(storiesReducer, {
 		data: [],
 		isLoading: false,
 		isError: false,
 	});
 
-	const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "");
-
 	useEffect(() => {
 		if (!searchTerm) return;
+
 		dispatchStories({ type: ACTIONS.STORIES_FETCH_INIT });
+
 		fetch(`${API_ENDPOINT}${searchTerm}`)
 			.then((response) => response.json())
 			.then((result) => {
@@ -100,10 +78,6 @@ const App = () => {
 			})
 			.catch(() => dispatchStories({ type: ACTIONS.STORIES_FETCH_FAILURE }));
 	}, [searchTerm]);
-
-	const searchedStories = stories.data.filter((story) =>
-		story.title.toLowerCase().includes(searchTerm.toLowerCase())
-	);
 
 	const handleSearch = (event) => {
 		setSearchTerm(event.target.value);
