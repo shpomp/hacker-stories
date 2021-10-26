@@ -1,64 +1,7 @@
 import "./App.css";
 import { useState, useEffect, useRef, useReducer } from "react";
-
-const InputWithLabel = ({
-	id,
-	value,
-	type = "text",
-	onInputChange,
-	isFocused,
-	children,
-}) => {
-	// A
-	const inputRef = useRef();
-	// C
-	useEffect(() => {
-		if (isFocused && inputRef.current) {
-			// D
-			inputRef.current.focus();
-		}
-	}, [isFocused]);
-	return (
-		<>
-			<label htmlFor={id}>{children}</label>
-			&nbsp;
-			{/* B */}
-			<input
-				ref={inputRef}
-				id={id}
-				type={type}
-				value={value}
-				onChange={onInputChange}
-			/>
-		</>
-	);
-};
-
-const List = ({ list, onRemoveItem }) => (
-	<ul className="list">
-		{list.map((item) => (
-			<Item key={item.objectID} item={item} onRemoveItem={onRemoveItem} />
-		))}
-	</ul>
-);
-
-const Item = ({ item, onRemoveItem }) => {
-	return (
-		<li>
-			<span>
-				<a href={item.url}>{item.title}</a>
-			</span>
-			<span>{item.author}</span>
-			<span>{item.num_comments}</span>
-			<span>{item.points}</span>
-			<span>
-				<button type="button" onClick={() => onRemoveItem(item)}>
-					delete
-				</button>
-			</span>
-		</li>
-	);
-};
+import InputWithLabel from "./components/InputWithLabel";
+import List from "./components/List";
 
 // ------- ******* ------- . ------- ******* ------- . ------- ******* -------
 
@@ -142,8 +85,6 @@ const App = () => {
 		isError: false,
 	});
 
-	const [isLoading, setIsLoading] = useState(false);
-	const [isError, setIsError] = useState(false);
 	const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "");
 
 	useEffect(() => {
