@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useReducer } from "react";
 
 const InputWithLabel = ({
 	id,
@@ -43,9 +43,6 @@ const List = ({ list, onRemoveItem }) => (
 );
 
 const Item = ({ item, onRemoveItem }) => {
-	const handleRemoveItem = () => {
-		onRemoveItem(item);
-	};
 	return (
 		<li>
 			<span>
@@ -65,12 +62,27 @@ const Item = ({ item, onRemoveItem }) => {
 
 // ------- ******* ------- . ------- ******* ------- . ------- ******* -------
 
+const ACTIONS = { SET_STORIES: "SET_STORIES", REMOVE_STORY: "REMOVE_STORY" };
+
 const useSemiPersistentState = (key, initialState) => {
 	const [value, setValue] = useState(localStorage.getItem(key) || initialState);
 	useEffect(() => {
 		localStorage.setItem(key, value);
 	}, [value, key]);
 	return [value, setValue];
+};
+
+const storiesReducer = (state, action) => {
+	switch (action.type) {
+		case ACTIONS.SET_STORIES:
+			return action.payload;
+		case ACTIONS.REMOVE_STORY:
+			return state.filter(
+				(story) => action.payload.objectID !== story.objectID
+			);
+		default:
+			throw new Error();
+	}
 };
 
 const initialStories = [
@@ -98,7 +110,7 @@ const getAsyncStories = () =>
 	);
 
 const App = () => {
-	const [stories, setStories] = useState([]);
+	const [stories, dispatchStories] = useReducer(storiesReducer, []);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isError, setIsError] = useState(false);
 	const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "");
@@ -107,7 +119,10 @@ const App = () => {
 		setIsLoading(true);
 		getAsyncStories()
 			.then((result) => {
-				setStories(result.data.stories);
+				dispatchStories({
+					type: ACTIONS.SET_STORIES,
+					payload: result.data.stories,
+				});
 				setIsLoading(false);
 			})
 			.catch(() => setIsError(true));
@@ -122,10 +137,10 @@ const App = () => {
 	};
 
 	const handleRemoveStory = (item) => {
-		const newStories = stories.filter(
-			(story) => item.objectID !== story.objectID
-		);
-		setStories(newStories);
+		dispatchStories({
+			type: ACTIONS.REMOVE_STORY,
+			payload: item,
+		});
 	};
 
 	return (
