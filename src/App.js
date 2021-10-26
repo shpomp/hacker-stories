@@ -3,6 +3,7 @@ import axios from "axios";
 import { useState, useEffect, useReducer, useCallback } from "react";
 import List from "./components/List";
 import SearchForm from "./components/SearchForm";
+import Name from "./components/Name";
 
 const API_ENDPOINT = "https://hn.algolia.com/api/v1/search?query=";
 
@@ -101,6 +102,7 @@ const App = () => {
 
 	return (
 		<div className="App">
+			<Name />
 			<h1>My Hacker Stories</h1>
 			<SearchForm
 				searchTerm={searchTerm}
