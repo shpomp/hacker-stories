@@ -1,4 +1,5 @@
 import "./App.css";
+import axios from "axios";
 import { useState, useEffect, useReducer, useCallback } from "react";
 import InputWithLabel from "./components/InputWithLabel";
 import List from "./components/List";
@@ -65,16 +66,14 @@ const App = () => {
 	});
 
 	const handleFetchStories = useCallback(() => {
-		if (!searchTerm) return;
-
 		dispatchStories({ type: ACTIONS.STORIES_FETCH_INIT });
 
-		fetch(url)
-			.then((response) => response.json())
+		axios
+			.get(url)
 			.then((result) => {
 				dispatchStories({
 					type: ACTIONS.STORIES_FETCH_SUCCESS,
-					payload: result.hits,
+					payload: result.data.hits,
 				});
 			})
 			.catch(() => dispatchStories({ type: ACTIONS.STORIES_FETCH_FAILURE }));
