@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import React from "react";
 
 import InputWithLabel from "./InputWithLabel";
 
@@ -26,22 +27,25 @@ const StyledButtonLarge = styled(StyledButton)`
 
 // -------------- COMPONENT --------------
 
-const SearchForm = ({ searchTerm, onSearchInput, onSearchSubmit }) => {
-	return (
-		<StyledSearchForm onSubmit={onSearchSubmit}>
-			<InputWithLabel
-				id="search"
-				value={searchTerm}
-				isFocused
-				onInputChange={onSearchInput}
-			>
-				<strong>Search:</strong>
-			</InputWithLabel>
-			<StyledButtonLarge type="submit" disabled={!searchTerm}>
-				Submit
-			</StyledButtonLarge>
-		</StyledSearchForm>
-	);
-};
+const SearchForm = React.memo(
+	({ searchTerm, onSearchInput, onSearchSubmit }) => {
+		console.log("searchFrom");
+		return (
+			<StyledSearchForm onSubmit={onSearchSubmit}>
+				<InputWithLabel
+					id="search"
+					value={searchTerm}
+					isFocused
+					onInputChange={onSearchInput}
+				>
+					<strong>Search:</strong>
+				</InputWithLabel>
+				<StyledButtonLarge type="submit" disabled={!searchTerm}>
+					Submit
+				</StyledButtonLarge>
+			</StyledSearchForm>
+		);
+	}
+);
 
 export default SearchForm;

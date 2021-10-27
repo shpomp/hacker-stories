@@ -1,6 +1,13 @@
 import styled from "styled-components";
 import axios from "axios";
-import { useState, useEffect, useReducer, useCallback, useRef } from "react";
+import {
+	useState,
+	useEffect,
+	useReducer,
+	useCallback,
+	useRef,
+	useMemo,
+} from "react";
 import List from "./components/List";
 import SearchForm from "./components/SearchForm";
 
@@ -112,13 +119,13 @@ const App = () => {
 		handleFetchStories();
 	}, [handleFetchStories]);
 
-	const handleSearchInput = (event) => {
+	const handleSearchInput = useCallback((event, searchterm) => {
 		setSearchTerm(event.target.value);
-	};
-	const handleSearchSubmit = (event) => {
+	}, []);
+	const handleSearchSubmit = useCallback((event, searchterm) => {
 		setUrl(`${API_ENDPOINT}${searchTerm}`);
 		event.preventDefault();
-	};
+	}, []);
 
 	// If the App component re-renders, it always creates a new version of this callback handler as a new function.
 	// Earlier, we used React’s useCallback Hook to prevent this behavior, by creating a function only on a re-render
@@ -134,6 +141,7 @@ const App = () => {
 	//We can tell React to only run a function if one of its dependencies has changed.
 	//If no dependency changed, the result of the function stays the same. React’s useMemo Hook helps us here:
 	const sumComments = useMemo(() => getSumComments(stories), [stories]);
+
 	return (
 		<StyledContainer>
 			<StyledHeadlinePrimary>
