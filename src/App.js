@@ -1,4 +1,4 @@
-import "./App.css";
+import styles from "./App.module.css";
 import axios from "axios";
 import { useState, useEffect, useReducer, useCallback } from "react";
 import List from "./components/List";
@@ -101,16 +101,14 @@ const App = () => {
 	};
 
 	return (
-		<div className="App">
-			<Name />
-			<h1>My Hacker Stories</h1>
+		<div className={styles.container}>
+			<h1 className={styles.headlinePrimary}>My Hacker Stories</h1>
 			<SearchForm
 				searchTerm={searchTerm}
 				onSearchInput={handleSearchInput}
 				onSearchSubmit={handleSearchSubmit}
 			/>
 
-			<hr />
 			{stories.isError && <p>Something went wrong :/</p>}
 			{stories.isLoading ? (
 				<p>Loading ...</p>

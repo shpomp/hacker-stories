@@ -1,3 +1,5 @@
+import styles from "../App.module.css";
+
 import { useEffect, useRef } from "react";
 
 const InputWithLabel = ({
@@ -19,7 +21,9 @@ const InputWithLabel = ({
 	}, [isFocused]);
 	return (
 		<>
-			<label htmlFor={id}>{children}</label>
+			<label htmlFor={id} className="label">
+				{children}
+			</label>
 			&nbsp;
 			{/* B */}
 			<input
@@ -28,6 +32,7 @@ const InputWithLabel = ({
 				type={type}
 				value={value}
 				onChange={onInputChange}
+				className="input"
 			/>
 		</>
 	);
