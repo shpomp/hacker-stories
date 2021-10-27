@@ -1,7 +1,7 @@
 import styles from "./App.module.css";
 import styled from "styled-components";
 import axios from "axios";
-import { useState, useEffect, useReducer, useCallback } from "react";
+import { useState, useEffect, useReducer, useCallback, useRef } from "react";
 import List from "./components/List";
 import SearchForm from "./components/SearchForm";
 import Name from "./components/Name";
@@ -26,9 +26,15 @@ const StyledHeadlinePrimary = styled.h1`
 const API_ENDPOINT = "https://hn.algolia.com/api/v1/search?query=";
 
 const useSemiPersistentState = (key, initialState) => {
+	const isMounted = useRef(false);
 	const [value, setValue] = useState(localStorage.getItem(key) || initialState);
 	useEffect(() => {
-		localStorage.setItem(key, value);
+		if (!isMounted.current) {
+			isMounted.current = true;
+		} else {
+			console.log("A");
+			localStorage.setItem(key, value);
+		}
 	}, [value, key]);
 	return [value, setValue];
 };
