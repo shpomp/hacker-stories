@@ -117,13 +117,17 @@ const App = () => {
 		event.preventDefault();
 	};
 
-	const handleRemoveStory = (item) => {
+	// If the App component re-renders, it always creates a new version of this callback handler as a new function.
+	// Earlier, we used React’s useCallback Hook to prevent this behavior, by creating a function only on a re-render
+	// (if one of its dependencies has changed):
+	const handleRemoveStory = useCallback((item) => {
 		dispatchStories({
-			type: ACTIONS.REMOVE_STORY,
+			type: "REMOVE_STORY",
 			payload: item,
 		});
-	};
+	}, []);
 
+	console.log("B:App");
 	return (
 		<StyledContainer>
 			<StyledHeadlinePrimary>My Hacker Stories</StyledHeadlinePrimary>
