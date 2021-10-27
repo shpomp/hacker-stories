@@ -1,3 +1,4 @@
+import styles from "../App.module.css";
 import styled from "styled-components";
 import { ReactComponent as Check } from "../check.svg";
 
