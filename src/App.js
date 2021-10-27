@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import axios from "axios";
 import {
 	useState,
@@ -10,21 +9,7 @@ import {
 } from "react";
 import List from "./components/List";
 import SearchForm from "./components/SearchForm";
-
-// ------- STYLED COMPONENTS -------
-
-const StyledContainer = styled.div`
-	height: 100vw;
-	padding: 20px;
-	background: #83a4d4;
-	background: linear-gradient(to left, #b6fbff, #83a4d4);
-	color: #171212;
-`;
-const StyledHeadlinePrimary = styled.h1`
-	font-size: 48px;
-	font-weight: 300;
-	letter-spacing: 2px;
-`;
+import "./App.css";
 
 // ------- APP -------
 
@@ -142,10 +127,10 @@ const App = () => {
 	const sumComments = useMemo(() => getSumComments(stories), [stories]);
 
 	return (
-		<StyledContainer>
-			<StyledHeadlinePrimary>
+		<div className="container">
+			<h1 className="headlinePrimary">
 				My Hacker Stories with {sumComments} comments.
-			</StyledHeadlinePrimary>
+			</h1>
 			<SearchForm
 				searchTerm={searchTerm}
 				onSearchInput={handleSearchInput}
@@ -158,7 +143,7 @@ const App = () => {
 			) : (
 				<List list={stories.data} onRemoveItem={handleRemoveStory} />
 			)}
-		</StyledContainer>
+		</div>
 	);
 };
 
