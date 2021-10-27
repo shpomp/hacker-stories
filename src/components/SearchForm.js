@@ -1,5 +1,3 @@
-import styles from "../App.module.css";
-import cs from "classnames";
 import styled from "styled-components";
 
 import InputWithLabel from "./InputWithLabel";

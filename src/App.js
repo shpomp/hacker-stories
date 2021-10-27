@@ -1,10 +1,8 @@
-import styles from "./App.module.css";
 import styled from "styled-components";
 import axios from "axios";
 import { useState, useEffect, useReducer, useCallback, useRef } from "react";
 import List from "./components/List";
 import SearchForm from "./components/SearchForm";
-import Name from "./components/Name";
 
 // ------- STYLED COMPONENTS -------
 
