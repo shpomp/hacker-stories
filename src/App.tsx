@@ -11,11 +11,20 @@ import List from "./components/List";
 import SearchForm from "./components/SearchForm";
 import "./App.css";
 
-// ------- APP -------
-
+export type Story = {
+	objectID: string;
+	url: string;
+	title: string;
+	author: string;
+	num_comments: number;
+	points: number;
+};
 const API_ENDPOINT = "https://hn.algolia.com/api/v1/search?query=";
 
-const useSemiPersistentState = (key, initialState) => {
+const useSemiPersistentState = (
+	key: string,
+	initialState: string
+): [string, (newValue: string) => void] => {
 	const isMounted = useRef(false);
 	const [value, setValue] = useState(localStorage.getItem(key) || initialState);
 	useEffect(() => {
@@ -115,12 +124,12 @@ const App = () => {
 	// If the App component re-renders, it always creates a new version of this callback handler as a new function.
 	// Earlier, we used React’s useCallback Hook to prevent this behavior, by creating a function only on a re-render
 	// (if one of its dependencies has changed):
-	const handleRemoveStory = useCallback((item) => {
+	const handleRemoveStory = (item: Story) => {
 		dispatchStories({
 			type: "REMOVE_STORY",
 			payload: item,
 		});
-	}, []);
+	};
 
 	//We can tell React to only run a function if one of its dependencies has changed.
 	//If no dependency changed, the result of the function stays the same. React’s useMemo Hook helps us here:
