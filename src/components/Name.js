@@ -1,5 +1,6 @@
 import React from "react";
 
+// -------------- COMPONENT --------------
 class Name extends React.Component {
 	constructor(props) {
 		super(props);

@@ -1,6 +1,8 @@
 import styles from "../App.module.css";
 import styled from "styled-components";
 
+// -------------- STYLED COMPONENTS --------------
+
 const StyledItem = styled.li`
 	display: flex;
 	align-items: center;
@@ -33,6 +35,8 @@ const StyledButton = styled.button`
 const StyledButtonSmall = styled(StyledButton)`
 	padding: 5px;
 `;
+
+// -------------- COMPONENT --------------
 
 const Item = ({ item, onRemoveItem }) => {
 	return (

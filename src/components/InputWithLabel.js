@@ -3,6 +3,8 @@ import styled from "styled-components";
 
 import { useEffect, useRef } from "react";
 
+// -------------- STYLED COMPONENTS --------------
+
 const StyledLabel = styled.label`
 	border-top: 1px solid #171212;
 	border-left: 1px solid #171212;
@@ -15,6 +17,8 @@ const StyledInput = styled.input`
 	background-color: transparent;
 	font-size: 24px;
 `;
+
+// -------------- COMPONENT --------------
 
 const InputWithLabel = ({
 	id,

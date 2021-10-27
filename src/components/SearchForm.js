@@ -4,6 +4,8 @@ import styled from "styled-components";
 
 import InputWithLabel from "./InputWithLabel";
 
+// -------------- STYLED COMPONENTS --------------
+
 const StyledButton = styled.button`
 	background: transparent;
 	border: 1px solid #171212;
@@ -23,10 +25,12 @@ const StyledSearchForm = styled.form`
 const StyledButtonLarge = styled(StyledButton)`
 	padding: 10px;
 `;
+
+// -------------- COMPONENT --------------
+
 const SearchForm = ({ searchTerm, onSearchInput, onSearchSubmit }) => {
 	return (
 		<StyledSearchForm onSubmit={onSearchSubmit}>
-			{" "}
 			<InputWithLabel
 				id="search"
 				value={searchTerm}
