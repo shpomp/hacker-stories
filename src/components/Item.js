@@ -1,5 +1,3 @@
-import React from "react";
-
 import styled from "styled-components";
 import { ReactComponent as Check } from "../check.svg";
 
@@ -40,8 +38,7 @@ const StyledButtonSmall = styled(StyledButton)`
 
 // -------------- COMPONENT --------------
 
-const Item = React.memo(({ item, onRemoveItem }) => {
-	console.log("Item");
+const Item = ({ item, onRemoveItem }) => {
 	return (
 		<StyledItem>
 			<StyledColumn width="40%">
@@ -57,6 +54,6 @@ const Item = React.memo(({ item, onRemoveItem }) => {
 			</StyledColumn>
 		</StyledItem>
 	);
-});
+};
 
 export default Item;

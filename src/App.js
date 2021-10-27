@@ -37,7 +37,6 @@ const useSemiPersistentState = (key, initialState) => {
 		if (!isMounted.current) {
 			isMounted.current = true;
 		} else {
-			console.log("A");
 			localStorage.setItem(key, value);
 		}
 	}, [value, key]);
@@ -86,7 +85,6 @@ const storiesReducer = (state, action) => {
 };
 
 const getSumComments = (stories) => {
-	console.log("getSumComments");
 	return stories.data.reduce((result, value) => result + value.num_comments, 0);
 };
 
@@ -119,13 +117,15 @@ const App = () => {
 		handleFetchStories();
 	}, [handleFetchStories]);
 
-	const handleSearchInput = useCallback((event, searchterm) => {
+	const handleSearchInput = (event) => {
 		setSearchTerm(event.target.value);
-	}, []);
-	const handleSearchSubmit = useCallback((event, searchterm) => {
+	};
+
+	const handleSearchSubmit = (event) => {
 		setUrl(`${API_ENDPOINT}${searchTerm}`);
+
 		event.preventDefault();
-	}, []);
+	};
 
 	// If the App component re-renders, it always creates a new version of this callback handler as a new function.
 	// Earlier, we used React’s useCallback Hook to prevent this behavior, by creating a function only on a re-render
@@ -137,7 +137,6 @@ const App = () => {
 		});
 	}, []);
 
-	console.log("B:App");
 	//We can tell React to only run a function if one of its dependencies has changed.
 	//If no dependency changed, the result of the function stays the same. React’s useMemo Hook helps us here:
 	const sumComments = useMemo(() => getSumComments(stories), [stories]);

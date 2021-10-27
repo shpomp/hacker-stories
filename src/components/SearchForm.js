@@ -29,7 +29,6 @@ const StyledButtonLarge = styled(StyledButton)`
 
 const SearchForm = React.memo(
 	({ searchTerm, onSearchInput, onSearchSubmit }) => {
-		console.log("searchFrom");
 		return (
 			<StyledSearchForm onSubmit={onSearchSubmit}>
 				<InputWithLabel
