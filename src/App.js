@@ -78,6 +78,11 @@ const storiesReducer = (state, action) => {
 	}
 };
 
+const getSumComments = (stories) => {
+	console.log("getSumComments");
+	return stories.data.reduce((result, value) => result + value.num_comments, 0);
+};
+
 const App = () => {
 	const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "React");
 	const [url, setUrl] = useState(`${API_ENDPOINT}${searchTerm}`);
@@ -126,9 +131,14 @@ const App = () => {
 	}, []);
 
 	console.log("B:App");
+	//We can tell React to only run a function if one of its dependencies has changed.
+	//If no dependency changed, the result of the function stays the same. React’s useMemo Hook helps us here:
+	const sumComments = useMemo(() => getSumComments(stories), [stories]);
 	return (
 		<StyledContainer>
-			<StyledHeadlinePrimary>My Hacker Stories</StyledHeadlinePrimary>
+			<StyledHeadlinePrimary>
+				My Hacker Stories with {sumComments} comments.
+			</StyledHeadlinePrimary>
 			<SearchForm
 				searchTerm={searchTerm}
 				onSearchInput={handleSearchInput}
