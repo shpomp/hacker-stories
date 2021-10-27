@@ -1,5 +1,3 @@
-import styles from "../App.module.css";
-
 import React from "react";
 import Item from "./Item";
 
@@ -7,7 +5,7 @@ import Item from "./Item";
 
 const List = React.memo(
 	({ list, onRemoveItem }) =>
-		console.log("B:List") || (
+		console.log("neat") || (
 			<ul className="list">
 				{list.map((item) => (
 					<Item key={item.objectID} item={item} onRemoveItem={onRemoveItem} />

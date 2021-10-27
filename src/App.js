@@ -1,10 +1,8 @@
-import styles from "./App.module.css";
 import styled from "styled-components";
 import axios from "axios";
 import { useState, useEffect, useReducer, useCallback, useRef } from "react";
 import List from "./components/List";
 import SearchForm from "./components/SearchForm";
-import Name from "./components/Name";
 
 // ------- STYLED COMPONENTS -------
 
@@ -32,7 +30,6 @@ const useSemiPersistentState = (key, initialState) => {
 		if (!isMounted.current) {
 			isMounted.current = true;
 		} else {
-			console.log("A");
 			localStorage.setItem(key, value);
 		}
 	}, [value, key]);
@@ -127,7 +124,6 @@ const App = () => {
 		});
 	}, []);
 
-	console.log("B:App");
 	return (
 		<StyledContainer>
 			<StyledHeadlinePrimary>My Hacker Stories</StyledHeadlinePrimary>
