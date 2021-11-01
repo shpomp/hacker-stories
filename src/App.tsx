@@ -150,11 +150,11 @@ const App = () => {
 		handleFetchStories();
 	}, [handleFetchStories]);
 
-	const handleSearchInput = (event) => {
+	const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchTerm(event.target.value);
 	};
 
-	const handleSearchSubmit = (event) => {
+	const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		setUrl(`${API_ENDPOINT}${searchTerm}`);
 
 		event.preventDefault();

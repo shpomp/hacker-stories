@@ -2,6 +2,15 @@ import { useEffect, useRef } from "react";
 
 // -------------- COMPONENT --------------
 
+type InputWithLabelProps = {
+	id: string;
+	value: string;
+	type?: string;
+	onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+	isFocused?: boolean;
+	children: React.ReactNode;
+};
+
 const InputWithLabel = ({
 	id,
 	value,
@@ -9,13 +18,11 @@ const InputWithLabel = ({
 	onInputChange,
 	isFocused,
 	children,
-}) => {
-	// A
-	const inputRef = useRef();
-	// C
+}: InputWithLabelProps) => {
+	const inputRef = useRef<HTMLInputElement>(null!);
+
 	useEffect(() => {
 		if (isFocused && inputRef.current) {
-			// D
 			inputRef.current.focus();
 		}
 	}, [isFocused]);
