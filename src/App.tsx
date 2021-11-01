@@ -11,6 +11,8 @@ import List from "./components/List";
 import SearchForm from "./components/SearchForm";
 import "./App.css";
 
+// -------------- *** TYPES *** --------------
+
 export type Story = {
 	objectID: string;
 	url: string;
@@ -19,6 +21,43 @@ export type Story = {
 	num_comments: number;
 	points: number;
 };
+
+type Stories = Array<Story>;
+
+type StoriesState = {
+	data: Stories;
+	isLoading: boolean;
+	isError: boolean;
+};
+
+// type StoriesAction = {
+// 	type: string;
+// 	payload: any;
+// };
+
+type StoriesAction =
+	| StoriesFetchInitAction
+	| StoriesFetchSuccessAction
+	| StoriesFetchFailureAction
+	| StoriesRemoveAction;
+
+interface StoriesFetchInitAction {
+	type: "STORIES_FETCH_INIT";
+}
+interface StoriesFetchSuccessAction {
+	type: "STORIES_FETCH_SUCCESS";
+	payload: Stories;
+}
+interface StoriesFetchFailureAction {
+	type: "STORIES_FETCH_FAILURE";
+}
+interface StoriesRemoveAction {
+	type: "REMOVE_STORY";
+	payload: Story;
+}
+
+// -------------- *** *** *** --------------
+
 const API_ENDPOINT = "https://hn.algolia.com/api/v1/search?query=";
 
 const useSemiPersistentState = (
@@ -45,7 +84,7 @@ const ACTIONS = {
 	STORIES_FETCH_FAILURE: "STORIES_FETCH_FAILURE",
 };
 
-const storiesReducer = (state, action) => {
+const storiesReducer = (state: StoriesState, action: StoriesAction) => {
 	switch (action.type) {
 		case ACTIONS.STORIES_FETCH_INIT:
 			return {

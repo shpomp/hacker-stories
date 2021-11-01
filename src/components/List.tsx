@@ -2,6 +2,7 @@ import Item from "./Item";
 import type { Story } from "../App";
 
 type Stories = Array<Story>;
+
 type ListProps = {
 	list: Stories;
 	onRemoveItem: (item: Story) => void;
