@@ -102,10 +102,18 @@ describe("SearchForm", () => {
 		fireEvent.submit(screen.getByRole("button"));
 		expect(searchFormProps.onSearchSubmit).toHaveBeenCalledTimes(1);
 	});
+
+	// SNAPSHOT testing
+	test("renders snapshot", () => {
+		const { container } = render(<SearchForm {...searchFormProps} />);
+		expect(container.firstChild).toMatchSnapshot();
+	});
 });
 
 // mock axios
 jest.mock("axios");
+
+// --------------------- APP ---------------------
 
 describe("App", () => {
 	test("succeeds fetching data", async () => {
