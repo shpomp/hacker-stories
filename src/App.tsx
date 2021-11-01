@@ -76,36 +76,28 @@ const useSemiPersistentState = (
 	return [value, setValue];
 };
 
-const ACTIONS = {
-	SET_STORIES: "SET_STORIES",
-	REMOVE_STORY: "REMOVE_STORY",
-	STORIES_FETCH_INIT: "STORIES_FETCH_INIT",
-	STORIES_FETCH_SUCCESS: "STORIES_FETCH_SUCCESS",
-	STORIES_FETCH_FAILURE: "STORIES_FETCH_FAILURE",
-};
-
 const storiesReducer = (state: StoriesState, action: StoriesAction) => {
 	switch (action.type) {
-		case ACTIONS.STORIES_FETCH_INIT:
+		case "STORIES_FETCH_INIT":
 			return {
 				...state,
 				isLoading: true,
 				isError: false,
 			};
-		case ACTIONS.STORIES_FETCH_SUCCESS:
+		case "STORIES_FETCH_SUCCESS":
 			return {
 				...state,
 				isLoading: false,
 				isError: false,
 				data: action.payload,
 			};
-		case ACTIONS.STORIES_FETCH_FAILURE:
+		case "STORIES_FETCH_FAILURE":
 			return {
 				...state,
 				isLoading: false,
 				isError: true,
 			};
-		case ACTIONS.REMOVE_STORY:
+		case "REMOVE_STORY":
 			return {
 				...state,
 				data: state.data.filter(
@@ -115,10 +107,6 @@ const storiesReducer = (state: StoriesState, action: StoriesAction) => {
 		default:
 			throw new Error();
 	}
-};
-
-const getSumComments = (stories) => {
-	return stories.data.reduce((result, value) => result + value.num_comments, 0);
 };
 
 const App = () => {
@@ -132,17 +120,17 @@ const App = () => {
 	});
 
 	const handleFetchStories = useCallback(async () => {
-		dispatchStories({ type: ACTIONS.STORIES_FETCH_INIT });
+		dispatchStories({ type: "STORIES_FETCH_INIT" });
 
 		try {
 			const result = await axios.get(url);
 
 			dispatchStories({
-				type: ACTIONS.STORIES_FETCH_SUCCESS,
+				type: "STORIES_FETCH_SUCCESS",
 				payload: result.data.hits,
 			});
 		} catch {
-			dispatchStories({ type: ACTIONS.STORIES_FETCH_FAILURE });
+			dispatchStories({ type: "STORIES_FETCH_FAILURE" });
 		}
 	}, [url]);
 
@@ -172,12 +160,15 @@ const App = () => {
 
 	//We can tell React to only run a function if one of its dependencies has changed.
 	//If no dependency changed, the result of the function stays the same. React’s useMemo Hook helps us here:
-	const sumComments = useMemo(() => getSumComments(stories), [stories]);
+	const getSumComments = (stories: Stories) => {
+		return stories.reduce((result, value) => result + value.num_comments, 0);
+	};
+	//const sumComments = useMemo(() => getSumComments(stories), [stories]);
 
 	return (
 		<div className="container">
 			<h1 className="headlinePrimary">
-				My Hacker Stories with {sumComments} comments.
+				My Hacker Stories with {"sumComments"} comments.
 			</h1>
 			<SearchForm
 				searchTerm={searchTerm}
