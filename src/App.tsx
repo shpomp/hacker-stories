@@ -76,7 +76,7 @@ const useSemiPersistentState = (
 	return [value, setValue];
 };
 
-const storiesReducer = (state: StoriesState, action: StoriesAction) => {
+export const storiesReducer = (state: StoriesState, action: StoriesAction) => {
 	switch (action.type) {
 		case "STORIES_FETCH_INIT":
 			return {

@@ -1,5 +1,6 @@
-import { render, screen } from "@testing-library/react";
 import App, { storiesReducer } from "./App";
+import { render, screen, fireEvent, act } from "@testing-library/react";
+import Item from "./components/Item";
 
 describe("something truthy and falsy", () => {
 	test("true to be true", () => {
@@ -42,5 +43,19 @@ describe("storiesReducer", () => {
 			isError: false,
 		};
 		expect(newState).toStrictEqual(expectedState);
+	});
+});
+
+// UNIT
+
+describe("Item", () => {
+	test("renders all properties", () => {
+		render(<Item item={storyOne} />);
+		// screen.debug(); // The function gives a useful overview of what is rendered and informs the best way to proceed with testing.
+		expect(screen.getByText("Jordan Walke")).toBeInTheDocument();
+		expect(screen.getByText("React")).toHaveAttribute(
+			"href",
+			"https://reactjs.org/"
+		);
 	});
 });
