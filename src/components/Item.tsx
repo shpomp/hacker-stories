@@ -20,6 +20,7 @@ const Item = ({ item, onRemoveItem }: ItemProps) => (
 				type="button"
 				onClick={() => onRemoveItem(item)}
 			>
+				dismiss
 				<Check height="18px" width="18px" />
 			</button>
 		</span>
