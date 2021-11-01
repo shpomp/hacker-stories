@@ -58,4 +58,16 @@ describe("Item", () => {
 			"https://reactjs.org/"
 		);
 	});
+
+	test("renders a clickable dismiss button", () => {
+		render(<Item item={storyOne} />);
+		expect(screen.getByRole("button")).toBeInTheDocument();
+	});
+
+	test("clicking the dismiss button calls the callback handler", () => {
+		const handleRemoveItem = jest.fn();
+		render(<Item item={storyOne} onRemoveItem={handleRemoveItem} />);
+		fireEvent.click(screen.getByRole("button"));
+		expect(handleRemoveItem).toHaveBeenCalledTimes(1);
+	});
 });
