@@ -1,5 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Item renders snapshot 1`] = `
+<li
+  class="item"
+>
+  <span>
+    <a />
+  </span>
+  <span />
+  <span />
+  <span />
+  <span>
+    <button
+      class="button buttonSmall"
+      type="button"
+    >
+      dismiss
+      <svg
+        height="18px"
+        width="18px"
+      >
+        check.svg
+      </svg>
+    </button>
+  </span>
+</li>
+`;
+
 exports[`SearchForm renders snapshot 1`] = `
 <form
   class="searchForm"

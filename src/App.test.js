@@ -72,6 +72,15 @@ describe("Item", () => {
 		fireEvent.click(screen.getByRole("button"));
 		expect(handleRemoveItem).toHaveBeenCalledTimes(1);
 	});
+
+	const ItemProps = {
+		item: jest.fn(),
+		onRemoveItem: jest.fn(),
+	};
+	test("renders snapshot", () => {
+		const { container } = render(<Item {...ItemProps} />);
+		expect(container.firstChild).toMatchSnapshot();
+	});
 });
 
 describe("SearchForm", () => {
