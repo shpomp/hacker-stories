@@ -22,18 +22,13 @@ export type Story = {
 	points: number;
 };
 
-type Stories = Array<Story>;
+export type Stories = Array<Story>;
 
 type StoriesState = {
 	data: Stories;
 	isLoading: boolean;
 	isError: boolean;
 };
-
-// type StoriesAction = {
-// 	type: string;
-// 	payload: any;
-// };
 
 type StoriesAction =
 	| StoriesFetchInitAction
