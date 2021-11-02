@@ -61,22 +61,38 @@ const List = ({ list, onRemoveItem }: ListProps) => {
 		<ul className="list">
 			<li style={{ display: "flex" }}>
 				<span style={{ width: "40%" }}>
-					<button type="button" onClick={() => handleSort("TITLE")}>
+					<button
+						className={sort === "TITLE" ? "activeButton" : ""}
+						type="button"
+						onClick={() => handleSort("TITLE")}
+					>
 						Title
 					</button>
 				</span>
 				<span style={{ width: "30%" }}>
-					<button type="button" onClick={() => handleSort("AUTHOR")}>
+					<button
+						className={sort === "AUTHOR" ? "activeButton" : ""}
+						type="button"
+						onClick={() => handleSort("AUTHOR")}
+					>
 						Author
 					</button>
 				</span>
 				<span style={{ width: "10%" }}>
-					<button type="button" onClick={() => handleSort("COMMENT")}>
+					<button
+						className={sort === "COMMENT" ? "activeButton" : ""}
+						type="button"
+						onClick={() => handleSort("COMMENT")}
+					>
 						Comments
 					</button>
 				</span>
 				<span style={{ width: "10%" }}>
-					<button type="button" onClick={() => handleSort("POINT")}>
+					<button
+						className={sort === "POINT" ? "activeButton" : ""}
+						type="button"
+						onClick={() => handleSort("POINT")}
+					>
 						Points
 					</button>
 				</span>

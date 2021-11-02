@@ -64,6 +64,10 @@
 	padding: 10px;
 }
 
+.activeButton {
+	background-color: pink;
+}
+
 .searchForm {
 	padding: 10px 0 20px 0;
 	display: flex;
