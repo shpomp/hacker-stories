@@ -51,8 +51,6 @@ type lastSearchesProps = {
 
 // -------------- *** *** *** --------------
 
-const API_ENDPOINT = "https://hn.algolia.com/api/v1/search?query=";
-
 const useSemiPersistentState = (
 	key: string,
 	initialState: string
@@ -102,19 +100,26 @@ export const storiesReducer = (state: StoriesState, action: StoriesAction) => {
 	}
 };
 
+// -------------- *** *** *** --------------
+
+const API_BASE = "https://hn.algolia.com/api/v1";
+const API_SEARCH = "/search";
+const PARAM_SEARCH = "query=";
+
+const getUrl = (searchTerm: string) =>
+	`${API_BASE}${API_SEARCH}?${PARAM_SEARCH}${searchTerm}`;
+
+// -------------- *** COMPONENT *** --------------
+
 const App = () => {
 	const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "React");
-	const [urls, setUrls] = useState<Array<string>>([
-		`${API_ENDPOINT}${searchTerm}`,
-	]);
+	const [urls, setUrls] = useState<Array<string>>([getUrl(searchTerm)]);
 
 	const [stories, dispatchStories] = useReducer(storiesReducer, {
 		data: [],
 		isLoading: false,
 		isError: false,
 	});
-
-	const getUrl = (searchTer: string) => `${API_ENDPOINT}${searchTerm}`;
 
 	const handleFetchStories = useCallback(async () => {
 		dispatchStories({ type: "STORIES_FETCH_INIT" });
@@ -151,7 +156,7 @@ const App = () => {
 	};
 
 	const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-		const url = `${API_ENDPOINT}${searchTerm}`;
+		const url = getUrl(searchTerm);
 		setUrls(urls.concat(url));
 		event.preventDefault();
 	};
@@ -162,7 +167,12 @@ const App = () => {
 	};
 	// --------------------- last searches ---------------------
 
-	const extractSearchTerm = (url: string) => url.replace(API_ENDPOINT, "");
+	// https://hn.algolia.com/api/v1/search?query=1
+	const extractSearchTerm = (url: string) =>
+		url
+			.substring(url.lastIndexOf("?") + 1, url.lastIndexOf("&"))
+			.replace(PARAM_SEARCH, "");
+
 	const getLastSearches = (urls: Array<string>) =>
 		urls.slice(-6, -1).map((url) => extractSearchTerm(url));
 
@@ -173,6 +183,8 @@ const App = () => {
 
 	const lastSearchesSet = new Set(getLastSearches(urls));
 	const lastSearchesArray: Array<string> = [...lastSearchesSet];
+	console.log(urls);
+	console.log(lastSearchesSet);
 
 	const LastSearches = ({ lastSearches, onLastSearch }: lastSearchesProps) => (
 		<>
