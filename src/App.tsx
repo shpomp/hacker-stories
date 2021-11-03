@@ -170,6 +170,7 @@ const App = () => {
 
 	const handleLastSearch = (searchTerm: string) => {
 		const url = `${API_ENDPOINT}${searchTerm}`;
+		setSearchTerm(searchTerm);
 		handleSearch(searchTerm);
 	};
 
