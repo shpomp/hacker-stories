@@ -3,7 +3,7 @@ import Item from "./Item";
 import { ReactComponent as ArrowUp } from "../arrowUp.svg";
 import { ReactComponent as ArrowDown } from "../arrowDown.svg";
 
-import { sortBy, orderBy, reverse } from "lodash";
+import { sortBy, orderBy } from "lodash";
 import type { Story, Stories } from "../App";
 
 // -------------- TYPES --------------
@@ -44,23 +44,17 @@ const List = ({ list, onRemoveItem }: ListProps) => {
 		setSort({ sortKey, reverseSort });
 	};
 
-	// const sortList = (sort: string, list: Stories): Stories => {
-	// 	switch (sort) {
-	// 		case "NONE":
-	// 			return list;
-	// 		case "TITLE":
-	// 			return sortBy(list, "title");
-	// 		case "AUTHOR":
-	// 			return orderBy(list, [(item) => item.author.toLowerCase()], ["asc"]);
-	// 		case "COMMENT":
-	// 			return sortBy(list, "num_comments").reverse();
-	// 		case "POINT":
-	// 			return sortBy(list, "points").reverse();
-	// 		default:
-	// 			return list;
-	// 	}
-	// };
-	// const sortedList = sortList(sort, list);
+	const renderSortButton = (key: string) => {
+		return sort.sortKey === key ? (
+			sort.reverseSort ? (
+				<ArrowDown />
+			) : (
+				<ArrowUp />
+			)
+		) : (
+			""
+		);
+	};
 
 	const sortFunction = SORTS[sort.sortKey];
 	const sortedList = sort.reverseSort
@@ -80,16 +74,7 @@ const List = ({ list, onRemoveItem }: ListProps) => {
 						type="button"
 						onClick={() => handleSort("TITLE")}
 					>
-						Title
-						{sort.sortKey === "TITLE" ? (
-							sort.reverseSort ? (
-								<ArrowDown />
-							) : (
-								<ArrowUp />
-							)
-						) : (
-							""
-						)}
+						Title {renderSortButton("TITLE")}
 					</button>
 				</span>
 				<span style={{ width: "30%" }}>
@@ -102,16 +87,7 @@ const List = ({ list, onRemoveItem }: ListProps) => {
 						type="button"
 						onClick={() => handleSort("AUTHOR")}
 					>
-						Author
-						{sort.sortKey === "AUTHOR" ? (
-							sort.reverseSort ? (
-								<ArrowDown />
-							) : (
-								<ArrowUp />
-							)
-						) : (
-							""
-						)}
+						Author {renderSortButton("AUTHOR")}
 					</button>
 				</span>
 				<span style={{ width: "15%" }}>
@@ -124,16 +100,7 @@ const List = ({ list, onRemoveItem }: ListProps) => {
 						type="button"
 						onClick={() => handleSort("COMMENT")}
 					>
-						Comments
-						{sort.sortKey === "COMMENT" ? (
-							sort.reverseSort ? (
-								<ArrowDown />
-							) : (
-								<ArrowUp />
-							)
-						) : (
-							""
-						)}
+						Comments {renderSortButton("COMMENT")}
 					</button>
 				</span>
 				<span style={{ width: "10%" }}>
@@ -146,16 +113,7 @@ const List = ({ list, onRemoveItem }: ListProps) => {
 						type="button"
 						onClick={() => handleSort("POINT")}
 					>
-						Points
-						{sort.sortKey === "POINT" ? (
-							sort.reverseSort ? (
-								<ArrowDown />
-							) : (
-								<ArrowUp />
-							)
-						) : (
-							""
-						)}
+						Points {renderSortButton("POINT")}
 					</button>
 				</span>
 				<span style={{ width: "10%" }}></span>

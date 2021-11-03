@@ -1,12 +1,5 @@
 import axios from "axios";
-import {
-	useState,
-	useEffect,
-	useReducer,
-	useCallback,
-	useRef,
-	useMemo,
-} from "react";
+import { useState, useEffect, useReducer, useCallback, useRef } from "react";
 import List from "./components/List";
 import SearchForm from "./components/SearchForm";
 import "./App.css";
@@ -174,7 +167,6 @@ const App = () => {
 		urls.slice(-6, -1).map((url) => extractSearchTerm(url));
 
 	const handleLastSearch = (searchTerm: string) => {
-		const url = `${API_ENDPOINT}${searchTerm}`;
 		setSearchTerm(searchTerm);
 		handleSearch(searchTerm);
 	};
@@ -200,12 +192,12 @@ const App = () => {
 
 	//We can tell React to only run a function if one of its dependencies has changed.
 	//If no dependency changed, the result of the function stays the same. React’s useMemo Hook helps us here:
-	const getSumComments = (stories: Stories) => {
-		return stories.reduce(
-			(result, value): number => result + value.num_comments,
-			0
-		);
-	};
+	// const getSumComments = (stories: Stories) => {
+	// 	return stories.reduce(
+	// 		(result, value): number => result + value.num_comments,
+	// 		0
+	// 	);
+	// };
 	//const sumComments = useMemo(() => getSumComments(stories), [stories]);
 	return (
 		<div className="container">
@@ -223,18 +215,6 @@ const App = () => {
 					onLastSearch={handleLastSearch}
 				/>
 			</div>
-
-			{/* <div >
-				{lastSearchesArray.map((searchTerm, index) => (
-					<button
-						key={searchTerm + index}
-						type="button"
-						onClick={() => handleLastSearch(searchTerm)}
-					>
-						{searchTerm}
-					</button>
-				))}
-			</div> */}
 
 			{stories.isError && <p>Something went wrong :/</p>}
 			{stories.isLoading ? (
