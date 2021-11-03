@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Item from "./Item";
-import { sortBy, orderBy } from "lodash";
+import { sortBy, orderBy, reverse } from "lodash";
 import type { Story, Stories } from "../App";
 
 // -------------- TYPES --------------
@@ -31,8 +31,11 @@ const SORTS: SortsType = {
 
 const List = ({ list, onRemoveItem }: ListProps) => {
 	const [sort, setSort] = useState<string>("NONE");
+	const [reverseSort, setReverse] = useState<boolean>(true);
 
 	const handleSort = (sortKey: string) => {
+		setReverse(!reverseSort);
+		console.log(reverseSort);
 		setSort(sortKey);
 	};
 
@@ -55,7 +58,9 @@ const List = ({ list, onRemoveItem }: ListProps) => {
 	// const sortedList = sortList(sort, list);
 
 	const sortFunction = SORTS[sort];
-	const sortedList = sortFunction(list);
+	const sortedList = reverseSort
+		? sortFunction(list).reverse()
+		: sortFunction(list);
 
 	return (
 		<ul className="list">
