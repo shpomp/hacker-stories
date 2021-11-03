@@ -56,6 +56,10 @@ const List = ({ list, onRemoveItem }: ListProps) => {
 		);
 	};
 
+	const sortButtonClassName = (key: string) => {
+		return sort.sortKey === key ? "sortButton activeButton" : "sortButton";
+	};
+
 	const sortFunction = SORTS[sort.sortKey];
 	const sortedList = sort.reverseSort
 		? sortFunction(list).reverse()
@@ -66,11 +70,7 @@ const List = ({ list, onRemoveItem }: ListProps) => {
 			<li style={{ display: "flex" }}>
 				<span style={{ width: "40%" }}>
 					<button
-						className={
-							sort.sortKey === "TITLE"
-								? "sortButton activeButton"
-								: "sortButton"
-						}
+						className={sortButtonClassName("TITLE")}
 						type="button"
 						onClick={() => handleSort("TITLE")}
 					>
@@ -79,11 +79,7 @@ const List = ({ list, onRemoveItem }: ListProps) => {
 				</span>
 				<span style={{ width: "30%" }}>
 					<button
-						className={
-							sort.sortKey === "AUTHOR"
-								? "sortButton activeButton"
-								: "sortButton"
-						}
+						className={sortButtonClassName("AUTHOR")}
 						type="button"
 						onClick={() => handleSort("AUTHOR")}
 					>
@@ -92,11 +88,7 @@ const List = ({ list, onRemoveItem }: ListProps) => {
 				</span>
 				<span style={{ width: "15%" }}>
 					<button
-						className={
-							sort.sortKey === "COMMENT"
-								? "sortButton activeButton"
-								: "sortButton"
-						}
+						className={sortButtonClassName("COMMENT")}
 						type="button"
 						onClick={() => handleSort("COMMENT")}
 					>
@@ -105,11 +97,7 @@ const List = ({ list, onRemoveItem }: ListProps) => {
 				</span>
 				<span style={{ width: "10%" }}>
 					<button
-						className={
-							sort.sortKey === "POINT"
-								? "sortButton activeButton"
-								: "sortButton"
-						}
+						className={sortButtonClassName("POINT")}
 						type="button"
 						onClick={() => handleSort("POINT")}
 					>
