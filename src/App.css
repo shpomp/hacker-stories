@@ -71,6 +71,12 @@
 	height: 50px;
 	background-color: transparent;
 }
+.lastSearchButtons * {
+	width: 150px;
+	height: 50px;
+	background-color: transparent;
+}
+
 .activeButton {
 	background-color: #a6c0e7;
 }

@@ -166,7 +166,7 @@ const App = () => {
 
 	const extractSearchTerm = (url: string) => url.replace(API_ENDPOINT, "");
 	const getLastSearches = (urls: Array<string>) =>
-		urls.slice(-5, -1).map((url) => extractSearchTerm(url));
+		urls.slice(-6, -1).map((url) => extractSearchTerm(url));
 
 	const handleLastSearch = (searchTerm: string) => {
 		const url = `${API_ENDPOINT}${searchTerm}`;
@@ -200,16 +200,17 @@ const App = () => {
 				onSearchInput={handleSearchInput}
 				onSearchSubmit={handleSearchSubmit}
 			/>
-
-			{lastSearchesArray.map((searchTerm, index) => (
-				<button
-					key={searchTerm + index}
-					type="button"
-					onClick={() => handleLastSearch(searchTerm)}
-				>
-					{searchTerm}
-				</button>
-			))}
+			<div className="lastSearchButtons">
+				{lastSearchesArray.map((searchTerm, index) => (
+					<button
+						key={searchTerm + index}
+						type="button"
+						onClick={() => handleLastSearch(searchTerm)}
+					>
+						{searchTerm}
+					</button>
+				))}
+			</div>
 
 			{stories.isError && <p>Something went wrong :/</p>}
 			{stories.isLoading ? (
