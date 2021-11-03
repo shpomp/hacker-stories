@@ -27,16 +27,17 @@ const SORTS: SortsType = {
 	POINT: (list: Stories): Stories => sortBy(list, "points").reverse(),
 };
 
+type sortState = { sortKey: string; reverseSort: boolean };
 // -------------- COMPONENT --------------
 
 const List = ({ list, onRemoveItem }: ListProps) => {
-	const [sort, setSort] = useState<string>("NONE");
-	const [reverseSort, setReverse] = useState<boolean>(true);
+	const [sort, setSort] = useState<sortState>({
+		sortKey: "NONE",
+		reverseSort: false,
+	});
 
 	const handleSort = (sortKey: string) => {
-		setReverse(!reverseSort);
-		console.log(reverseSort);
-		setSort(sortKey);
+		setSort({ sortKey: sortKey, reverseSort: !sort.reverseSort });
 	};
 
 	// const sortList = (sort: string, list: Stories): Stories => {
@@ -57,8 +58,8 @@ const List = ({ list, onRemoveItem }: ListProps) => {
 	// };
 	// const sortedList = sortList(sort, list);
 
-	const sortFunction = SORTS[sort];
-	const sortedList = reverseSort
+	const sortFunction = SORTS[sort.sortKey];
+	const sortedList = sort.reverseSort
 		? sortFunction(list).reverse()
 		: sortFunction(list);
 
@@ -67,7 +68,7 @@ const List = ({ list, onRemoveItem }: ListProps) => {
 			<li style={{ display: "flex" }}>
 				<span style={{ width: "40%" }}>
 					<button
-						className={sort === "TITLE" ? "activeButton" : ""}
+						className={sort.sortKey === "TITLE" ? "activeButton" : ""}
 						type="button"
 						onClick={() => handleSort("TITLE")}
 					>
@@ -76,7 +77,7 @@ const List = ({ list, onRemoveItem }: ListProps) => {
 				</span>
 				<span style={{ width: "30%" }}>
 					<button
-						className={sort === "AUTHOR" ? "activeButton" : ""}
+						className={sort.sortKey === "AUTHOR" ? "activeButton" : ""}
 						type="button"
 						onClick={() => handleSort("AUTHOR")}
 					>
@@ -85,7 +86,7 @@ const List = ({ list, onRemoveItem }: ListProps) => {
 				</span>
 				<span style={{ width: "10%" }}>
 					<button
-						className={sort === "COMMENT" ? "activeButton" : ""}
+						className={sort.sortKey === "COMMENT" ? "activeButton" : ""}
 						type="button"
 						onClick={() => handleSort("COMMENT")}
 					>
@@ -94,7 +95,7 @@ const List = ({ list, onRemoveItem }: ListProps) => {
 				</span>
 				<span style={{ width: "10%" }}>
 					<button
-						className={sort === "POINT" ? "activeButton" : ""}
+						className={sort.sortKey === "POINT" ? "activeButton" : ""}
 						type="button"
 						onClick={() => handleSort("POINT")}
 					>
