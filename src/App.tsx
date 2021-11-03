@@ -51,6 +51,11 @@ interface StoriesRemoveAction {
 	payload: Story;
 }
 
+type lastSearchesProps = {
+	lastSearches: Array<string>;
+	onLastSearch: (searchTerm: string) => void;
+};
+
 // -------------- *** *** *** --------------
 
 const API_ENDPOINT = "https://hn.algolia.com/api/v1/search?query=";
@@ -176,8 +181,20 @@ const App = () => {
 
 	const lastSearchesSet = new Set(getLastSearches(urls));
 	const lastSearchesArray: Array<string> = [...lastSearchesSet];
-	console.log(lastSearchesSet);
-	console.log(lastSearchesArray);
+
+	const LastSearches = ({ lastSearches, onLastSearch }: lastSearchesProps) => (
+		<>
+			{lastSearches.map((searchTerm: string, index: number) => (
+				<button
+					key={searchTerm + index}
+					type="button"
+					onClick={() => onLastSearch(searchTerm)}
+				>
+					{searchTerm}
+				</button>
+			))}
+		</>
+	);
 
 	// --------------------- ******* ---------------------
 
@@ -201,6 +218,13 @@ const App = () => {
 				onSearchSubmit={handleSearchSubmit}
 			/>
 			<div className="lastSearchButtons">
+				<LastSearches
+					lastSearches={lastSearchesArray}
+					onLastSearch={handleLastSearch}
+				/>
+			</div>
+
+			{/* <div >
 				{lastSearchesArray.map((searchTerm, index) => (
 					<button
 						key={searchTerm + index}
@@ -210,7 +234,7 @@ const App = () => {
 						{searchTerm}
 					</button>
 				))}
-			</div>
+			</div> */}
 
 			{stories.isError && <p>Something went wrong :/</p>}
 			{stories.isLoading ? (
