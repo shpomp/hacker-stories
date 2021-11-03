@@ -69,7 +69,6 @@ const List = ({ list, onRemoveItem }: ListProps) => {
 
 	return (
 		<ul className="list">
-			{sort.reverseSort ? <ArrowUp /> : <ArrowDown />}
 			<li style={{ display: "flex" }}>
 				<span style={{ width: "40%" }}>
 					<button
