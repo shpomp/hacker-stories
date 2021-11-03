@@ -173,9 +173,10 @@ const App = () => {
 		handleSearch(searchTerm);
 	};
 
-	const lastSearches = getLastSearches(urls);
-	console.log(urls);
-	console.log(lastSearches);
+	const lastSearchesSet = new Set(getLastSearches(urls));
+	const lastSearchesArray: Array<string> = [...lastSearchesSet];
+	console.log(lastSearchesSet);
+	console.log(lastSearchesArray);
 
 	// --------------------- ******* ---------------------
 
@@ -199,7 +200,7 @@ const App = () => {
 				onSearchSubmit={handleSearchSubmit}
 			/>
 
-			{lastSearches.map((searchTerm, index) => (
+			{lastSearchesArray.map((searchTerm, index) => (
 				<button
 					key={searchTerm + index}
 					type="button"
