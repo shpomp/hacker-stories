@@ -12,9 +12,9 @@ const Item = ({ item, onRemoveItem }: ItemProps) => (
 			<a href={item.url}>{item.title}</a>
 		</span>
 		<span style={{ width: "30%" }}>{item.author}</span>
-		<span style={{ width: "10%" }}>{item.num_comments}</span>
+		<span style={{ width: "15%" }}>{item.num_comments}</span>
 		<span style={{ width: "10%" }}>{item.points}</span>
-		<span style={{ width: "10%" }}>
+		<span style={{ width: "5%" }}>
 			<button
 				className="button buttonSmall"
 				type="button"

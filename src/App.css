@@ -64,8 +64,15 @@
 	padding: 10px;
 }
 
+.sortButton {
+	display: flex;
+	justify-content: space-between;
+	width: 150px;
+	height: 50px;
+	background-color: transparent;
+}
 .activeButton {
-	background-color: pink;
+	background-color: #a6c0e7;
 }
 
 .searchForm {
