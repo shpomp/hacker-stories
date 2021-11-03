@@ -106,7 +106,9 @@ export const storiesReducer = (state: StoriesState, action: StoriesAction) => {
 
 const App = () => {
 	const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "React");
-	const [url, setUrl] = useState(`${API_ENDPOINT}${searchTerm}`);
+	const [urls, setUrls] = useState<Array<string>>([
+		`${API_ENDPOINT}${searchTerm}`,
+	]);
 
 	const [stories, dispatchStories] = useReducer(storiesReducer, {
 		data: [],
@@ -114,11 +116,14 @@ const App = () => {
 		isError: false,
 	});
 
+	const getUrl = (searchTer: string) => `${API_ENDPOINT}${searchTerm}`;
+
 	const handleFetchStories = useCallback(async () => {
 		dispatchStories({ type: "STORIES_FETCH_INIT" });
 
 		try {
-			const result = await axios.get(url);
+			const lastUrl = urls[urls.length - 1];
+			const result = await axios.get(lastUrl);
 
 			dispatchStories({
 				type: "STORIES_FETCH_SUCCESS",
@@ -127,21 +132,7 @@ const App = () => {
 		} catch {
 			dispatchStories({ type: "STORIES_FETCH_FAILURE" });
 		}
-	}, [url]);
-
-	useEffect(() => {
-		handleFetchStories();
-	}, [handleFetchStories]);
-
-	const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setSearchTerm(event.target.value);
-	};
-
-	const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-		setUrl(`${API_ENDPOINT}${searchTerm}`);
-
-		event.preventDefault();
-	};
+	}, [urls]);
 
 	// If the App component re-renders, it always creates a new version of this callback handler as a new function.
 	// Earlier, we used React’s useCallback Hook to prevent this behavior, by creating a function only on a re-render
@@ -153,13 +144,50 @@ const App = () => {
 		});
 	};
 
+	useEffect(() => {
+		handleFetchStories();
+	}, [handleFetchStories]);
+
+	const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setSearchTerm(event.target.value);
+	};
+
+	const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+		const url = `${API_ENDPOINT}${searchTerm}`;
+		setUrls(urls.concat(url));
+		event.preventDefault();
+	};
+
+	const handleSearch = (searchTerm: string) => {
+		const url = getUrl(searchTerm);
+		setUrls(urls.concat(url));
+	};
+	// --------------------- last searches ---------------------
+
+	const extractSearchTerm = (url: string) => url.replace(API_ENDPOINT, "");
+	const getLastSearches = (urls: Array<string>) =>
+		urls.slice(-5, -1).map((url) => extractSearchTerm(url));
+
+	const handleLastSearch = (searchTerm: string) => {
+		const url = `${API_ENDPOINT}${searchTerm}`;
+		handleSearch(searchTerm);
+	};
+
+	const lastSearches = getLastSearches(urls);
+	console.log(urls);
+	console.log(lastSearches);
+
+	// --------------------- ******* ---------------------
+
 	//We can tell React to only run a function if one of its dependencies has changed.
 	//If no dependency changed, the result of the function stays the same. React’s useMemo Hook helps us here:
 	const getSumComments = (stories: Stories) => {
-		return stories.reduce((result, value) => result + value.num_comments, 0);
+		return stories.reduce(
+			(result, value): number => result + value.num_comments,
+			0
+		);
 	};
 	//const sumComments = useMemo(() => getSumComments(stories), [stories]);
-
 	return (
 		<div className="container">
 			<h1 className="headlinePrimary">
@@ -170,6 +198,16 @@ const App = () => {
 				onSearchInput={handleSearchInput}
 				onSearchSubmit={handleSearchSubmit}
 			/>
+
+			{lastSearches.map((searchTerm, index) => (
+				<button
+					key={searchTerm + index}
+					type="button"
+					onClick={() => handleLastSearch(searchTerm)}
+				>
+					{searchTerm}
+				</button>
+			))}
 
 			{stories.isError && <p>Something went wrong :/</p>}
 			{stories.isLoading ? (
