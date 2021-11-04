@@ -4,7 +4,6 @@ import { ReactComponent as ArrowUp } from "../arrowUp.svg";
 import { ReactComponent as ArrowDown } from "../arrowDown.svg";
 
 import { sortBy, orderBy } from "lodash";
-//import type { Story, Stories } from "../App";
 
 const SORTS = {
 	NONE: (list) => list,
@@ -14,8 +13,6 @@ const SORTS = {
 	COMMENT: (list) => sortBy(list, "num_comments"),
 	POINT: (list) => sortBy(list, "points"),
 };
-
-// -------------- COMPONENT --------------
 
 const List = ({ list, onRemoveItem }) => {
 	const [sort, setSort] = useState({

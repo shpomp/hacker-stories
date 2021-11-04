@@ -2,8 +2,6 @@ import React from "react";
 
 import InputWithLabel from "./InputWithLabel";
 
-// -------------- COMPONENT --------------
-
 const SearchForm = React.memo(
 	({ searchTerm, onSearchInput, onSearchSubmit }) => {
 		return (

@@ -156,7 +156,7 @@ const App = () => {
 	const lastSearches = getLastSearches(urls);
 
 	return (
-		<div>
+		<div className="container">
 			<h1>My Hacker Stories</h1>
 
 			<SearchForm

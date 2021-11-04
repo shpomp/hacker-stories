@@ -1,5 +1,4 @@
 import { ReactComponent as Check } from "../check.svg";
-//import type { Story } from "../App";
 
 const Item = ({ item, onRemoveItem }) => (
 	<li style={{ display: "flex" }}>

@@ -1,7 +1,5 @@
 import { useEffect, useRef } from "react";
 
-// -------------- COMPONENT --------------
-
 const InputWithLabel = ({
 	id,
 	value,
