@@ -1,9 +1,19 @@
 import { ReactComponent as Check } from "../check.svg";
-import type { Story } from "../App";
+//import type { Story } from "../App";
 
 type ItemProps = {
 	item: Story;
 	onRemoveItem: (item: Story) => void;
+};
+
+type Story = {
+	objectID: string;
+	url: string;
+	title: string;
+	author: string;
+	num_comments: number;
+	points: number;
+	page: number;
 };
 
 const Item = ({ item, onRemoveItem }: ItemProps) => (

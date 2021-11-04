@@ -4,9 +4,20 @@ import { ReactComponent as ArrowUp } from "../arrowUp.svg";
 import { ReactComponent as ArrowDown } from "../arrowDown.svg";
 
 import { sortBy, orderBy } from "lodash";
-import type { Story, Stories } from "../App";
+//import type { Story, Stories } from "../App";
 
 // -------------- TYPES --------------
+type Story = {
+	objectID: string;
+	url: string;
+	title: string;
+	author: string;
+	num_comments: number;
+	points: number;
+	page: number;
+};
+
+export type Stories = Array<Story>;
 
 type ListProps = {
 	list: Stories;
