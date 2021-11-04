@@ -6,56 +6,29 @@ import { ReactComponent as ArrowDown } from "../arrowDown.svg";
 import { sortBy, orderBy } from "lodash";
 //import type { Story, Stories } from "../App";
 
-// -------------- TYPES --------------
-type Story = {
-	objectID: string;
-	url: string;
-	title: string;
-	author: string;
-	num_comments: number;
-	points: number;
-	page: number;
-};
-
-export type Stories = Array<Story>;
-
-type ListProps = {
-	list: Stories;
-	onRemoveItem: (item: Story) => void;
-};
-
-type SortsType = {
-	[NONE: string]: (list: Stories) => Stories;
-	TITLE: (list: Stories) => Stories;
-	AUTHOR: (list: Stories) => Stories;
-	COMMENT: (list: Stories) => Stories;
-	POINT: (list: Stories) => Stories;
-};
-
-const SORTS: SortsType = {
-	NONE: (list: Stories): Stories => list,
-	TITLE: (list: Stories): Stories => sortBy(list, "title"),
-	AUTHOR: (list: Stories): Stories =>
+const SORTS = {
+	NONE: (list) => list,
+	TITLE: (list) => sortBy(list, "title"),
+	AUTHOR: (list) =>
 		orderBy(list, [(item) => item.author.toLowerCase()], ["asc"]),
-	COMMENT: (list: Stories): Stories => sortBy(list, "num_comments"),
-	POINT: (list: Stories): Stories => sortBy(list, "points"),
+	COMMENT: (list) => sortBy(list, "num_comments"),
+	POINT: (list) => sortBy(list, "points"),
 };
 
-type sortState = { sortKey: string; reverseSort: boolean };
 // -------------- COMPONENT --------------
 
-const List = ({ list, onRemoveItem }: ListProps) => {
-	const [sort, setSort] = useState<sortState>({
+const List = ({ list, onRemoveItem }) => {
+	const [sort, setSort] = useState({
 		sortKey: "NONE",
 		reverseSort: false,
 	});
 
-	const handleSort = (sortKey: string) => {
+	const handleSort = (sortKey) => {
 		const reverseSort = sort.sortKey === sortKey && !sort.reverseSort;
 		setSort({ sortKey, reverseSort });
 	};
 
-	const renderSortButton = (key: string) => {
+	const renderSortButton = (key) => {
 		return sort.sortKey === key ? (
 			sort.reverseSort ? (
 				<ArrowDown />
@@ -67,7 +40,7 @@ const List = ({ list, onRemoveItem }: ListProps) => {
 		);
 	};
 
-	const sortButtonClassName = (key: string) => {
+	const sortButtonClassName = (key) => {
 		return sort.sortKey === key ? "sortButton activeButton" : "sortButton";
 	};
 
@@ -117,7 +90,7 @@ const List = ({ list, onRemoveItem }: ListProps) => {
 				</span>
 				<span style={{ width: "10%" }}></span>
 			</li>
-			{sortedList.map((item: Story) => (
+			{sortedList.map((item) => (
 				<Item key={item.objectID} item={item} onRemoveItem={onRemoveItem} />
 			))}
 		</ul>

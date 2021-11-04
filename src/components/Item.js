@@ -1,22 +1,7 @@
 import { ReactComponent as Check } from "../check.svg";
 //import type { Story } from "../App";
 
-type ItemProps = {
-	item: Story;
-	onRemoveItem: (item: Story) => void;
-};
-
-type Story = {
-	objectID: string;
-	url: string;
-	title: string;
-	author: string;
-	num_comments: number;
-	points: number;
-	page: number;
-};
-
-const Item = ({ item, onRemoveItem }: ItemProps) => (
+const Item = ({ item, onRemoveItem }) => (
 	<li style={{ display: "flex" }}>
 		<span style={{ width: "40%" }}>
 			<a href={item.url}>{item.title}</a>
